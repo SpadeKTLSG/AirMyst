@@ -5,9 +5,22 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * 弹出对话框
+ * <author>SK</author>
+ */
 public class PopupDialog extends JDialog {
+
+    /**
+     * 文本标签
+     */
     private final JLabel textLabel;
+
+    /**
+     * 确定按钮
+     */
     private final JButton okButton;
+
 
     public PopupDialog(JFrame parent) {
         super(parent, "提示", true);

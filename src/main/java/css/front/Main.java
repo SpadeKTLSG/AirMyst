@@ -16,6 +16,9 @@ import static css.out.file.entiset.GF.DIR_EXTEND;
 import static css.out.file.entiset.GF.FILE_EXTEND;
 import static css.out.file.handleB.HandleFile.str2Path;
 
+/**
+ * 前端作为项目主启动类
+ */
 @Slf4j
 public class Main {
     public static void main(String[] args) throws IOException {

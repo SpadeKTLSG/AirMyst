@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 /**
  * 设备管理器
-
  */
 @Component
 public class DeviceManagement {
