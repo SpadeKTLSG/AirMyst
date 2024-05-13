@@ -3,11 +3,14 @@ package css.core.process;
 
 import java.util.HashMap;
 
+/**
+ * 进程控制块
 
+ */
 public class Pcb {
 
     Pcb() {
-        this.pcbId = Constants.PID.getAndIncrement();
+        this.pcbId = Constants.PID.getAndIncrement(); //获取进程标识符
         this.state = 0;
         register = new HashMap<String, Integer>();
         this.lines = null;

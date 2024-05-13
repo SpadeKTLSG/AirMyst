@@ -4,6 +4,7 @@ package css.core.process;
 import css.core.memory.MemoryManager;
 import css.out.device.DeviceManagement;
 import css.out.device.ProcessDeviceUse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,35 +13,61 @@ import java.io.*;
 import java.util.Iterator;
 import java.util.Map;
 
-
+/**
+ * 进程实体
+ */
+@Slf4j
 public class ProcessA extends Thread {
+
+    //注入进程调度器
     ApplicationContext context =
             new ClassPathXmlApplicationContext("spring-config.xml");
     ProcessScheduling processScheduling = (ProcessScheduling) context.getBean("processScheduling");
+    //注入设备管理器
     DeviceManagement deviceManagement = (DeviceManagement) context.getBean("deviceManagement");
 
-
+    /**
+     * 是否停止
+     */
     volatile public boolean stop = false;
+
+    /**
+     * 进程控制块
+     */
     public Pcb pcb;
+
+    /**
+     * 文件读取
+     */
     public FileReader file;
     public BufferedReader bufferedReader;
 
 
+    /**
+     * 进程构造函数
+     * @param fileName  利用文件
+     */
     public ProcessA(String fileName) throws IOException {
         pcb = new Pcb();
         file = new FileReader(fileName);
         bufferedReader = new BufferedReader(file);
     }
 
+    /**
+     * 进程运行
+     */
     @Override
     public void run() {
+
         try {
-            System.out.println(processScheduling);
+
+            log.debug("{}开始运行",processScheduling);
             synchronized (this) {
-                ProcessScheduling.readyQueues.add(this);
-                ProcessScheduling.linkedList.put(this.pcb.pcbId, this);
+                ProcessScheduling.readyQueues.add(this); //登记就绪队列
+                ProcessScheduling.linkedList.put(this.pcb.pcbId, this); //登记进程链表
                 this.wait();
             }
+
             int i = 1;
             while (!stop) {
                 CPU();

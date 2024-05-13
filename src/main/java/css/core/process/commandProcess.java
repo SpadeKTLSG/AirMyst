@@ -15,8 +15,13 @@ public class commandProcess {
             new ClassPathXmlApplicationContext("spring-config.xml");
     static DeviceManagement deviceManagement = (DeviceManagement) context.getBean("deviceManagement");
 
+    /**
+     * 命令执行
+     */
     public static void commandExecution(String order) {
         String[] s = order.split(" ");
+
+
         switch (s[0]) {
             case "$add" -> {
                 deviceManagement.devices.put(s[1], new Device(s[1]));

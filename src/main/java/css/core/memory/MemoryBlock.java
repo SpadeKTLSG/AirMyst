@@ -2,6 +2,9 @@ package css.core.memory;
 
 import lombok.Data;
 
+/**
+ * 内存块
+ */
 @Data
 public class MemoryBlock {
 
