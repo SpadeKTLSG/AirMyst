@@ -1,0 +1,8 @@
+--这里用来存放用于不同模块间通信需要的信息
+--这是文件系统唯一暴露给外界的接口文件, 如果想要与文件系统通信, 请访问我而不是他们
+
+toFrontApiList -> 给前端的
+toProcessApiList -> 给进程的
+PowerApiList -> 通过这个开机文件系统
+InteractApiList -> 通过这个处理公有通信, 与我自己的耦合度较高
+MonitorApiList -> 系统监控的接口
