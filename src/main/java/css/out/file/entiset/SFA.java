@@ -15,12 +15,12 @@ public abstract class SFA {
     /**
      * DiskSyS磁盘系统: 唯一
      */
-    private static final DiskSyS DISK_SYS = new DiskSyS();
+    private static final DiskSyS DISK_SYS = DiskSyS.getInstance();
 
     /**
      * FileSyS文件系统: 唯一
      */
-    private static final FileSyS FILE_SYS = new FileSyS();
+    private static final FileSyS FILE_SYS = FileSyS.getInstance();
 
 
     /**

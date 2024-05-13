@@ -6,6 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import static css.out.file.enums.FileDirTYPE.DIR;
 
+/**
+ * 文件夹实体
+ */
 @Slf4j
 @Data
 @Builder

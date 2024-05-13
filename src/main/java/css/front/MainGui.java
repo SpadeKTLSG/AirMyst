@@ -25,8 +25,15 @@ import static css.core.process.commandProcess.commandExecution;
 import static css.out.file.api.toFrontApiList.giveBlockStatus2Front;
 import static css.out.file.api.toFrontApiList.givePath2Front;
 
+
+/**
+ * 主界面对象
+ * <author> A
+ */
 @Slf4j
 public class MainGui {
+
+
     private final JFrame Mframe;
     private JTree pathTree;
 
@@ -36,6 +43,7 @@ public class MainGui {
 
     private final JPanel diskPanel;
     private final Color[] disk;
+
     private JLabel process;
     private JPanel ready;
     private JPanel execute;
@@ -44,6 +52,9 @@ public class MainGui {
 
     private JPanel p1;
 
+    /**
+     * 构造方法中进行界面的初始化
+     */
     public MainGui() {
         // 创建主界面
         Mframe = new JFrame("模拟操作系统");
@@ -55,7 +66,7 @@ public class MainGui {
         Mframe.setBackground(Color.white);
 
 
-        //? SK 延迟初始化
+        //? SK 延迟初始化 - 转移第二次使用
         /*p1 = new JPanel();
         p1.setSize(600, 310);
         p1.setBackground(Color.white);
@@ -93,7 +104,7 @@ public class MainGui {
 
         Mframe.add(p1);*/
 
-        //显示时间
+        //时间模块
         JPanel timepanel = new JPanel();
         timepanel.setSize(610, 40);
         timepanel.setBackground(Color.white);
@@ -104,7 +115,7 @@ public class MainGui {
         timepanel.add(timeLabel);
         Mframe.add(timepanel);
 
-
+        //目录模块
         JPanel p2 = new JPanel();
         p2.setSize(610, 300);
         p2.setBackground(Color.white);
@@ -115,8 +126,9 @@ public class MainGui {
         treepanel.setBackground(Color.white);
         treepanel.setLayout(new FlowLayout(FlowLayout.LEADING));
         treepanel.setBorder(new TitledBorder(new EtchedBorder(), "目录结构"));
-
         DynamicTreeExample treeExample = new DynamicTreeExample();
+
+        //? A 废案
 //        // 创建根节点
 //        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
 //        String pathArray []=givePath2Front();
@@ -150,7 +162,7 @@ public class MainGui {
         });
 
 
-        //!SK 输入指令提交模块
+        //! SK 输入指令提交模块
         // 把pathtree添加到panel
         treepanel.add(treeExample.pathTree);
         JTextField input_text = new JTextField("");
@@ -166,6 +178,7 @@ public class MainGui {
             ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
             ProcessScheduling processScheduling = (ProcessScheduling) context.getBean("processScheduling");
 //            processScheduling.commandExecution(input);
+
             //? static
             commandExecution(input);
             input_text.setText("");       // 清空输入框
@@ -186,6 +199,7 @@ public class MainGui {
             treeExample.updateTree(path);
         });
 
+        //输入框
         input_text.setPreferredSize(new Dimension(360, 30));
         input_text.setBackground(Color.white);
         p2.add(treepanel);
@@ -198,24 +212,22 @@ public class MainGui {
         Mframe.add(p2);
 
 
+        //内存模块
         JPanel p3 = new JPanel();
         p3.setSize(290, 310);
         p3.setBackground(Color.white);
         p3.setLocation(10, 370);
         p3.setBorder(new TitledBorder(new EtchedBorder(), "内存"));
         ramPanel = new JPanel();
-
-        // 初始化硬盘颜色数组
-        ram = new Color[64];
+        ram = new Color[64]; // 初始化硬盘颜色数组
 
         initializeram(ram, MemoryManager.givememorystatus());
 
         updateRam(); // 初始更新硬盘视图
-
-
         p3.add(ramPanel);
         Mframe.add(p3);
 
+        //设备模块
         JPanel p4 = new JPanel();
         p4.setSize(200, 310);
         p4.setBackground(Color.white);
@@ -225,7 +237,6 @@ public class MainGui {
 
 
         //接收devices -> Map : 设备名字 + 使用的进程
-
         Map<String, String> devices = new HashMap<>();
 
         ApplicationContext context =
@@ -242,7 +253,8 @@ public class MainGui {
 
 //        System.out.println(devices);
 
-        //? 非常好设备
+
+        //? 非常好设备(非常坏)
         JLabel A1 = new JLabel("A  ");
         JPanel deviceA1 = device("");
         p4.add(A1);
@@ -270,6 +282,7 @@ public class MainGui {
         Mframe.add(p4);
 
 
+        //进程状态模块
         JPanel p5 = new JPanel();
         p5.setSize(90, 2310);
         p5.setBackground(Color.white);
@@ -277,20 +290,16 @@ public class MainGui {
         p5.setLayout(new FlowLayout(FlowLayout.LEADING, 20, 10));
         p5.setBorder(new TitledBorder(new EtchedBorder(), "图例"));
         JPanel legend1 = legend("未占用", Color.gray);
-
         JPanel legend2 = legend("占用", Color.green);
-
         JPanel legend3 = legend("正在运行", Color.yellow);
-
         JPanel legend4 = legend("系统占用", new Color(139, 69, 19));
-
         p5.add(legend1);
         p5.add(legend2);
         p5.add(legend3);
         p5.add(legend4);
-
         Mframe.add(p5);
 
+        //磁盘模块
         JPanel p6 = new JPanel();
         p6.setSize(610, 310);
         p6.setBackground(Color.white);
@@ -306,7 +315,8 @@ public class MainGui {
         p6.add(diskPanel);
         Mframe.add(p6);
 
-        //! 定时事件
+
+        //! 定时事件组件
 
         //T = 10s
         // 设置定时器，每隔一段时间更新视图
@@ -337,9 +347,13 @@ public class MainGui {
 
     }
 
-    //? SK 进程刷新:
+
+
+    /**
+     * ? SK 延迟初始化
+     */
     private void updateProcess() {
-        //? SK 延迟初始化
+
         p1 = new JPanel();
         p1.setSize(600, 310);
         p1.setBackground(Color.white);
@@ -406,7 +420,10 @@ public class MainGui {
         Mframe.add(p1);
     }
 
-    //需求：根据实参标颜色的方式表示磁盘使用情况，
+
+    /**
+     * 初始化硬盘颜色数组
+     */
     private void initializeram(Color[] color, List<Integer> list) {
 //        Random random = new Random();
 
@@ -429,12 +446,18 @@ public class MainGui {
         }
     }
 
+    /**
+     * 更新时间
+     */
     private void updateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDate = dateFormat.format(new Date());
         timeLabel.setText(formattedDate);
     }
 
+    /**
+     * 创建窗口
+     */
     private static JPanel createWindow(String label, List<String> dataList) {
         JPanel window = new JPanel(new BorderLayout());
         window.setBackground(Color.white);
@@ -463,6 +486,9 @@ public class MainGui {
         return window;
     }
 
+    /**
+     * 创建图例
+     */
     private static JPanel legend(String label, Color i) {
         JPanel window = new JPanel(new BorderLayout());
         window.setBackground(Color.white);
@@ -482,6 +508,9 @@ public class MainGui {
         return window;
     }
 
+    /**
+     * 创建设备
+     */
     private static JPanel device(String s) {
         JPanel window = new JPanel(new FlowLayout());
         window.setBackground(Color.white);
@@ -506,6 +535,9 @@ public class MainGui {
         return window;
     }
 
+    /**
+     * 更新硬盘
+     */
     private void updateRam() {
         ramPanel.removeAll();
         GridLayout gl = new GridLayout(8, 8, 5, 5);
@@ -526,10 +558,14 @@ public class MainGui {
         ramPanel.repaint(); // 重绘界面
     }
 
+    //废弃, 使用SK的树处理方法
     private void updatepathtree() {
 
     }
 
+    /**
+     * 更新磁盘
+     */
     private void updateDisk() {
         diskPanel.removeAll(); // 移除之前颜色
         GridLayout gl = new GridLayout(8, 16, 5, 5);

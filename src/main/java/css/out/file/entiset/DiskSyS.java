@@ -11,6 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 public class DiskSyS {
 
+    private volatile static DiskSyS instance;
+
+
     /**
      * 磁盘
      */
@@ -19,7 +22,14 @@ public class DiskSyS {
     /**
      * 单例实现
      */
-    public DiskSyS() {
+    private DiskSyS() {
+    }
+
+    public static DiskSyS getInstance(){
+        if(instance == null){
+            instance = new DiskSyS();
+        }
+        return instance;
     }
 
     @Override

@@ -33,23 +33,31 @@ public class ProcessScheduling {
      */
     volatile public static ProcessA runing = null;
 
+    /**
+     * 进程调度: 从就绪队列中取出一个进程运行
+     */
     @Transactional
     public void getReadyToRun() throws InterruptedException {
-        ProcessA first = readyQueues.take();
-        runing = first;
-        first.pcb.state = 1;
+
+        ProcessA first = readyQueues.take(); //从就绪队列中取出一个进程
+        runing = first; //标记为正在运行的进程
+        first.pcb.state = 1; //设置进程状态为运行态
         synchronized (first) {
-            first.notifyAll();
+            first.notifyAll(); //唤醒进程
         }
     }
 
+    /**
+     * 进程调度: 从运行态转为就绪态
+     */
     @Transactional
     public void getRunToReady() throws InterruptedException {
-        runing.pcb.state = 0;
-        readyQueues.add(runing);
-        runing.wait();
+        runing.pcb.state = 0; //设置进程状态为就绪态
+        readyQueues.add(runing); //加入就绪队列
+        runing.wait(); //等待
     }
 
+    //废弃
     @Transactional
     public void changeProcess(String fileName) throws IOException {
         ProcessA process = new ProcessA(fileName);
@@ -57,6 +65,7 @@ public class ProcessScheduling {
         process.start();
     }
 
+    //废弃
     @Transactional
     public void changeBlocking(ProcessA process) throws InterruptedException {
         runing = null;
@@ -64,11 +73,13 @@ public class ProcessScheduling {
         process.wait();
     }
 
+    //废弃
     @Transactional
     public void changeReady(ProcessA process) {
         process.pcb.state = 0;
     }
 
+    //测试操作
     public void use() {
         Thread thread = new Thread(() -> {
             while (true) {

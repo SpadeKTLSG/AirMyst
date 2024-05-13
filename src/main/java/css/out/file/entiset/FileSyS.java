@@ -13,6 +13,8 @@ import java.util.Map;
 @Data
 public class FileSyS {
 
+    private volatile static FileSyS instance;
+
     /**
      * 文件系统树形结构
      * <p>没有存在磁盘里</p>
@@ -34,7 +36,14 @@ public class FileSyS {
     /**
      * 单例实现
      */
-    public FileSyS() {
+    private FileSyS() {
+    }
+
+    public static FileSyS getInstance(){
+        if(instance == null){
+            instance = new FileSyS();
+        }
+        return instance;
     }
 
 

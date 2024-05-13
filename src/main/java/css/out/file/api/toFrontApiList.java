@@ -163,7 +163,6 @@ public class toFrontApiList {
      * @param subPath 子路径
      * @return 返回工作对象给进程
      */
-
     public static Object doFunction(String order, String allName, String path, String subPath) {
         switch (order) { //根据order调用对应的方法, 根据命令的不同传递参数
             case "create" -> {
