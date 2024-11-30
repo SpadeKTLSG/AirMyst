@@ -86,6 +86,7 @@ public abstract class TreeUtil {
      *
      * @param root 根节点
      */
+    @Deprecated
     public static String showGreatTree(node root) {
         log.debug("美观展示文件系统树形结构: ");
         if (root == null) log.warn("纳尼? 情报是假的?");
